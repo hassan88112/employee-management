@@ -91,7 +91,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private void sendMailNotification(String message, String subject, String[] to, String[] cc, String from) {
         try {
             Mail mail = new Mail();
-            mail.setMailFrom("reports@shofha.net");
+            mail.setMailFrom("hassanshalash0@gmail.com");
             mail.setMailTo(to);
             mail.setMailCc(cc);
             mail.setMailSubject(subject);
