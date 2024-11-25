@@ -1,13 +1,12 @@
 package com.stc.EmployeeManagement.controller;
 
-import com.stc.EmployeeManagement.Service.EmployeeService;
+import com.stc.EmployeeManagement.service.EmployeeService;
 import com.stc.EmployeeManagement.dto.EmployeeDto;
 import com.stc.EmployeeManagement.models.Employee;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;

@@ -1,4 +1,4 @@
-package com.stc.EmployeeManagement.Service;
+package com.stc.EmployeeManagement.service;
 
 import com.stc.EmployeeManagement.models.Mail;
 import org.springframework.scheduling.annotation.Async;

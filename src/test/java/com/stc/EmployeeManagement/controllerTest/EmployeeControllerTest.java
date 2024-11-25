@@ -1,7 +1,7 @@
 package com.stc.EmployeeManagement.controllerTest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.stc.EmployeeManagement.Service.EmployeeService;
+import com.stc.EmployeeManagement.service.EmployeeService;
 import com.stc.EmployeeManagement.controller.EmployeeController;
 import com.stc.EmployeeManagement.dto.EmployeeDto;
 import com.stc.EmployeeManagement.exception.EmployeeNotFoundException;
@@ -33,7 +33,7 @@ class EmployeeControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    void createEmployee_shouldReturnCreatedEmployee() throws Exception {
+    void createEmployee_withValidInput_shouldReturnCreatedEmployee() throws Exception {
         EmployeeDto employeeDto = new EmployeeDto();
         employeeDto.setFirstName("Hassan");
         employeeDto.setLastName("Shalash");
@@ -52,11 +52,11 @@ class EmployeeControllerTest {
         when(employeeService.createEmployee(any(Employee.class))).thenReturn(employee);
 
         mockMvc.perform(post("/api/employees")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(employeeDto)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(employeeDto)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.firstName").value("hassan"))
-                .andExpect(jsonPath("$.lastName").value("shalash"))
+                .andExpect(jsonPath("$.firstName").value("Hassan"))
+                .andExpect(jsonPath("$.lastName").value("Shalash"))
                 .andExpect(jsonPath("$.email").value("hassanshalash0@gmail.com"))
                 .andExpect(jsonPath("$.department").value("IT"))
                 .andExpect(jsonPath("$.salary").value(8000.0));
@@ -65,13 +65,13 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void getEmployeeById_shouldReturnEmployee() throws Exception {
+    void getEmployeeById_withValidId_shouldReturnEmployee() throws Exception {
         UUID id = UUID.randomUUID();
 
         Employee employee = new Employee();
         employee.setId(id);
-        employee.setFirstName("hassan");
-        employee.setLastName("shalash");
+        employee.setFirstName("Hassan");
+        employee.setLastName("Shalash");
         employee.setEmail("hassanshalash0@gmail.com");
         employee.setDepartment("IT");
         employee.setSalary(8000.0);
@@ -79,16 +79,16 @@ class EmployeeControllerTest {
         when(employeeService.getEmployeeById(id)).thenReturn(employee);
 
         mockMvc.perform(get("/api/employees/{id}", id)
-                .accept(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(id.toString()))
-                .andExpect(jsonPath("$.firstName").value("hassan"));
+                .andExpect(jsonPath("$.firstName").value("Hassan"));
 
         verify(employeeService, times(1)).getEmployeeById(id);
     }
 
     @Test
-    void deleteEmployee_shouldReturnNoContent() throws Exception {
+    void deleteEmployee_withValidId_shouldReturnNoContent() throws Exception {
         UUID id = UUID.randomUUID();
 
         doNothing().when(employeeService).deleteEmployee(id);
@@ -100,7 +100,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void getEmployeeById_notFound_shouldReturn404() throws Exception {
+    void getEmployeeById_withInvalidId_shouldReturn404NotFound() throws Exception {
         UUID id = UUID.randomUUID();
         when(employeeService.getEmployeeById(id)).thenThrow(new EmployeeNotFoundException("Employee with ID " + id + " not found"));
 
@@ -110,4 +110,5 @@ class EmployeeControllerTest {
 
         verify(employeeService, times(1)).getEmployeeById(id);
     }
+
 }

@@ -1,6 +1,6 @@
 package com.stc.EmployeeManagement.ServiceTest;
 
-import com.stc.EmployeeManagement.Service.Impl.EmployeeServiceImpl;
+import com.stc.EmployeeManagement.service.Impl.EmployeeServiceImpl;
 import com.stc.EmployeeManagement.models.Employee;
 import com.stc.EmployeeManagement.repository.EmployeeRepository;
 import org.junit.jupiter.api.BeforeEach;

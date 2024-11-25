@@ -1,13 +1,14 @@
-package com.stc.EmployeeManagement.Service.Impl;
+package com.stc.EmployeeManagement.service.Impl;
 
-import com.stc.EmployeeManagement.Service.EmailNotificationService;
-import com.stc.EmployeeManagement.Service.EmployeeService;
+import com.stc.EmployeeManagement.service.EmailNotificationService;
+import com.stc.EmployeeManagement.service.EmployeeService;
 import com.stc.EmployeeManagement.exception.EmployeeNotFoundException;
 import com.stc.EmployeeManagement.models.Employee;
 import com.stc.EmployeeManagement.models.Mail;
 import com.stc.EmployeeManagement.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository repository;
     private final EmailNotificationService emailNotificationService;
+    private final ModelMapper modelMapper;
 
     @Override
     public Employee createEmployee(Employee employee) {
@@ -33,7 +35,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
             sendMailNotification(
                     prepareEmployeeDetailsEmail(employee),
-                    "Employee Management Service",
+                    "Employee Management service",
                     to,
                     cc,
                     "hassanshalash0@gmail.com"
@@ -68,11 +70,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee existingEmployee = getEmployeeById(id);
 
         log.debug("Updating employee details: {}", employee);
-        existingEmployee.setFirstName(employee.getFirstName());
-        existingEmployee.setLastName(employee.getLastName());
-        existingEmployee.setEmail(employee.getEmail());
-        existingEmployee.setDepartment(employee.getDepartment());
-        existingEmployee.setSalary(employee.getSalary());
+        modelMapper.map(employee, existingEmployee);
 
         Employee updatedEmployee = repository.save(existingEmployee);
         log.info("Employee updated successfully with ID: {}", updatedEmployee.getId());
